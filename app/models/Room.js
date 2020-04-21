@@ -22,6 +22,10 @@ const roomSchema = mongoose.Schema({
         type: [{ type: mongoose.Schema.Types.ObjectId, ref: "ExtraService" }],
         required: true
     },
+    photo: {
+        type: String,
+        required: true
+    }
 });
 
 module.exports = mongoose.model('Room', roomSchema);

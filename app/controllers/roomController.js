@@ -7,7 +7,7 @@ const RoomEnums = require('../enums/roomEnums');
 
 exports.find = async (req, res) => {
   try {
-    const findRoom = await Room.findOne({ _id: req.params.id });
+    const findRoom = await Room.findOne({ _id: req.params.id }).populate("roomType").populate("extraServices");
     if (!findRoom) {
       return res.status(404).json({
         message: RoomEnums.NOT_FOUND
@@ -33,6 +33,7 @@ exports.create = async (req, res) => {
       number: req.body.number,
       roomType: req.body.roomTypeId,
       extraServices: req.body.extraServicesIds,
+      photo: req.body.photo
     })
     const savedRoom = await room.save();
     return res.status(200).json({
