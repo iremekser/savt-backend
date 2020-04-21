@@ -23,10 +23,12 @@ exports.find = async (req, res) => {
 }
 exports.create = async (req, res) => {
     try {
-        const k = (new Date(req.body.endDate) - new Date(req.body.startDate)) / 60 / 60 / 24 / 1000;
+        let k = (new Date(req.body.endDate) - new Date(req.body.startDate)) / 60 / 60 / 24 / 1000;
+        k = Math.ceil(k);
+        if (k == 0) k = 1
         const room = await Room.findOne({ _id: req.body.roomId }).populate("roomType").populate("extraServices");
         let total = room.roomType.price * k;
-        room.extraServices.forEach(n => {
+        room.extraServices.filter(n => req.body.selectedExtras.includes(n._id)).forEach(n => {
             total += n.price * k
         });
         if (req.body.hasCarpark)
@@ -38,6 +40,7 @@ exports.create = async (req, res) => {
             startDate: req.body.startDate,
             endDate: req.body.endDate,
             hasCarpark: req.body.hasCarpark,
+            selectedExtras: req.body.selectedExtras,
             totalPrice: total
         })
         const savedReservation = await reservation.save();
@@ -54,12 +57,14 @@ exports.list = async (req, res) => {
         let query = {};
         if (req.query.email) {
             const customer = await Customer.findOne({ email: req.query.email });
-            query = { customerId: customer._id }
             if (!customer)
                 return res.status(404).json({ message: CustomerEnums.NOT_FOUND });
-        }
 
-        listedReservation = await Reservation.find(query);
+            query = { customerId: customer._doc._id }
+        }
+        console.log(query);
+
+        listedReservation = await Reservation.find(query).populate("roomId");
         return res.status(200).json({
             listedReservation
         });

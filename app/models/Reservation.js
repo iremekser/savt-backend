@@ -27,6 +27,10 @@ const reservationSchema = mongoose.Schema({
     totalPrice: {
         type: Number,
         required: false
+    },
+    selectedExtras: {
+        type: [mongoose.Schema.Types.ObjectId],
+        required: false
     }
 });
 
