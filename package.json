@@ -1,11 +1,11 @@
 {
-  "name": "express_rest_api",
+  "name": "savt-backend",
   "version": "1.0.0",
-  "description": "a boilerplate for nodejs api layer",
+  "description": "",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com//sezaakgun/express-rest-api.git"
+    "url": "git://github.com/iremekser/savt-backend.git"
   },
   "scripts": {
     "doc": "apidoc -i ./app",
@@ -47,6 +47,6 @@
     "api",
     "structure"
   ],
-  "author": "sezaak3@gmail.com, rafet1998@gmail.com",
+  "author": "iremekser@gmail.com",
   "license": "MIT"
 }
