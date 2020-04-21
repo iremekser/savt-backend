@@ -17,6 +17,9 @@ exports.find = async (req, res) => {
   }
 };
 exports.create = async (req, res) => {
+  const existCustomer = await Customer.findOne({ email: req.body.email });
+  if (existCustomer)
+    return res.status(200).json({ user: existCustomer });
   const customer = new Customer({
     _id: new mongoose.Types.ObjectId(),
     fullName: req.body.fullName,
@@ -26,7 +29,7 @@ exports.create = async (req, res) => {
   try {
     const savedCustomer = await customer.save();
     return res.status(200).json({
-      savedCustomer
+      user: savedCustomer
     });
   }
   catch (err) {
