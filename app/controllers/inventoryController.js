@@ -19,6 +19,7 @@ exports.find = async (req, res) => {
 exports.create = async (req, res) => {
     try {
         const inventory = new Inventory({
+            _id: new mongoose.Types.ObjectId(),
             name: req.body.name,
             price: req.body.price,
             amount: req.body.amount,
